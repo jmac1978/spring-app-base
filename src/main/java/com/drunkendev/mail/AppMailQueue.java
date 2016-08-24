@@ -46,7 +46,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static com.drunkendev.util.TemporalConverters.toLocalDateTime;
+import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;

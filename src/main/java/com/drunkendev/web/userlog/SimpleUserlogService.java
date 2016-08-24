@@ -41,7 +41,7 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserGran
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
 
-import static com.drunkendev.util.TemporalConverters.toLocalDateTime;
+import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
 
 
 /**

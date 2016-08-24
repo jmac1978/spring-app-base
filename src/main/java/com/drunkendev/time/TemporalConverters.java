@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.drunkendev.util;
+package com.drunkendev.time;
 
 import java.sql.Timestamp;
 import java.time.Instant;

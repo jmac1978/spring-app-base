@@ -18,10 +18,11 @@
 
 package com.drunkendev.web.userlog;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 /**
+ * Sudo access summary for user switches.
  *
  * @author  Brett Ryan
  */
@@ -29,25 +30,55 @@ public class SudoSummary {
 
     private final String username;
     private final String sudoUsername;
-    private final LocalDateTime date;
+    private final LocalDate date;
     private final int count;
 
-    public SudoSummary(String username, String sudoUsername, LocalDateTime date, int count) {
+    /**
+     * Creates a new {@code SudoSummary} instance.
+     *
+     * @param   username
+     *          Username.
+     * @param   sudoUsername
+     *          User requests were made against.
+     * @param   date
+     *          Date requests were made.
+     * @param   count
+     *          Count of requests for this instance.
+     */
+    public SudoSummary(String username,
+                       String sudoUsername,
+                       LocalDate date,
+                       int count) {
         this.username = username;
         this.sudoUsername = sudoUsername;
         this.date = date;
         this.count = count;
     }
 
+    /**
+     * Username requests are made by.
+     *
+     * @return  Username.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Username requests were executed against.
+     *
+     * @return  sudo username.
+     */
     public String getSudoUsername() {
         return sudoUsername;
     }
 
-    public LocalDateTime getDate() {
+    /**
+     * Date of requests.
+     *
+     * @return  date of requests.
+     */
+    public LocalDate getDate() {
         return date;
     }
 

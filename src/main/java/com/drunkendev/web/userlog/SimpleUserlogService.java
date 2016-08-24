@@ -41,6 +41,7 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserGran
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
 
+import static com.drunkendev.time.TemporalConverters.toLocalDate;
 import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
 
 
@@ -67,49 +68,13 @@ public class SimpleUserlogService implements UserlogService {
     }
 
     @Override
-    public List<UserUsageSummary> getUserUsageSummary() {
-        return jt.query("select username" +
-                        "      ,min(request_date) first_request" +
-                        "      ,max(request_date) last_request" +
-                        "      ,count(*) c" +
-                        "  from user_history" +
-                        " where url not like '/api/%'" +
-                        "   and url not like '/error/%'" +
-                        " group by username" +
-                        " order by username",
-                        (rs, i) -> new UserUsageSummary(
-                                rs.getString("username"),
-                                toLocalDateTime(rs.getTimestamp("first_request")),
-                                toLocalDateTime(rs.getTimestamp("last_request")),
-                                rs.getInt("c")));
-    }
-
-    @Override
-    public List<SudoSummary> getSudoSummary() {
-        return jt.query("select username" +
-                        "      ,sudo_username" +
-                        "      ,convert(request_date, date) dt" +
-                        "      ,count(*) c" +
-                        "  from user_history" +
-                        " where sudo_username is not null" +
-                        " group by username" +
-                        "         ,sudo_username" +
-                        "         ,dt" +
-                        " order by dt desc" +
-                        "            ,username",
-                        (rs, i) -> new SudoSummary(
-                                rs.getString("username"),
-                                rs.getString("sudo_username"),
-                                toLocalDateTime(rs.getTimestamp("dt")),
-                                rs.getInt("c")));
-    }
-
-    @Override
-    public void add(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-//        request.getUserPrincipal()
-        // user, date/time,
-        String _user = request.getRemoteUser();;
-        if (_user != null && (handler instanceof HandlerMethod || handler instanceof ParameterizableViewController)) {
+    public void add(HttpServletRequest request,
+                    HttpServletResponse response,
+                    Object handler,
+                    Exception ex) {
+        String _user = request.getRemoteUser();
+        if (_user != null && (handler instanceof HandlerMethod ||
+                              handler instanceof ParameterizableViewController)) {
             final String method = request.getMethod();
             final String path = request.getServletPath();
             final String query = request.getQueryString();
@@ -215,6 +180,44 @@ public class SimpleUserlogService implements UserlogService {
 //                LOG.error("Couldn't send system error message: {}", ex1.getMessage(), ex1);
 //            }
 //        }
+    }
+
+    @Override
+    public List<UserUsageSummary> getUserUsageSummary() {
+        return jt.query("select username" +
+                        "      ,min(request_date) first_request" +
+                        "      ,max(request_date) last_request" +
+                        "      ,count(*) c" +
+                        "  from user_history" +
+                        " where url not like '/api/%'" +
+                        "   and url not like '/error/%'" +
+                        " group by username" +
+                        " order by username",
+                        (rs, i) -> new UserUsageSummary(
+                                rs.getString("username"),
+                                toLocalDateTime(rs.getTimestamp("first_request")),
+                                toLocalDateTime(rs.getTimestamp("last_request")),
+                                rs.getInt("c")));
+    }
+
+    @Override
+    public List<SudoSummary> getSudoSummary() {
+        return jt.query("select username" +
+                        "      ,sudo_username" +
+                        "      ,convert(request_date, date) dt" +
+                        "      ,count(*) c" +
+                        "  from user_history" +
+                        " where sudo_username is not null" +
+                        " group by username" +
+                        "         ,sudo_username" +
+                        "         ,dt" +
+                        " order by dt desc" +
+                        "            ,username",
+                        (rs, i) -> new SudoSummary(
+                                rs.getString("username"),
+                                rs.getString("sudo_username"),
+                                toLocalDate(rs.getTimestamp("dt")),
+                                rs.getInt("c")));
     }
 
     @Override

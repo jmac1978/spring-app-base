@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 
 
 /**
+ * Structure representing first/last access within application and total count.
+ *
+ * This may be restricted to within a date-range for an initial query.
  *
  * @author  Brett Ryan
  */
@@ -32,25 +35,60 @@ public class UserUsageSummary {
     private final LocalDateTime lastRequest;
     private final int count;
 
-    public UserUsageSummary(String username, LocalDateTime firstRequest, LocalDateTime lastRequest, int count) {
+    /**
+     * Constructs a new {@code UserUsageSummary} instance.
+     *
+     * @param   username
+     *          Username.
+     * @param   firstRequest
+     *          First request.
+     * @param   lastRequest
+     *          Last request.
+     * @param   count
+     *          Request count.
+     */
+    public UserUsageSummary(String username,
+                            LocalDateTime firstRequest,
+                            LocalDateTime lastRequest,
+                            int count) {
         this.username = username;
         this.firstRequest = firstRequest;
         this.lastRequest = lastRequest;
         this.count = count;
     }
 
+    /**
+     * Username requests are made by.
+     *
+     * @return  Username.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Timestamp of oldest request.
+     *
+     * @return  Timestamp of first request.
+     */
     public LocalDateTime getFirstRequest() {
         return firstRequest;
     }
 
+    /**
+     * Timestamp of most recent request.
+     *
+     * @return  Timestamp of last request.
+     */
     public LocalDateTime getLastRequest() {
         return lastRequest;
     }
 
+    /**
+     * Total requests made and logged.
+     *
+     * @return  Count of requests made by this user.
+     */
     public int getCount() {
         return count;
     }

@@ -25,6 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
+import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
@@ -54,12 +59,45 @@ public class RequestLoggingInterceptor extends HandlerInterceptorAdapter impleme
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if (request.getRemoteUser() != null &&
-            (handler instanceof HandlerMethod || handler instanceof ParameterizableViewController)) {
-            threadPool.submit(() -> ul.add(request, response, handler, ex));
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object handler,
+                                Exception ex)
+            throws Exception {
+        String _user = request.getRemoteUser();
+        LOG.debug("Logging user request for {}", _user);
+        if (_user != null && (handler instanceof HandlerMethod ||
+                              handler instanceof ParameterizableViewController)) {
+            final String method = request.getMethod();
+            final String path = request.getServletPath();
+            final String query = request.getQueryString();
+            final String contentType = response.getContentType();
+            final String agent = request.getHeader("User-Agent");
+            final String address = request.getRemoteAddr();
+            String _actingAs = null;
+            if (request.isUserInRole(SwitchUserFilter.ROLE_PREVIOUS_ADMINISTRATOR)) {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                for (GrantedAuthority ga : auth.getAuthorities()) {
+                    if (ga instanceof SwitchUserGrantedAuthority) {
+                        SwitchUserGrantedAuthority sa = (SwitchUserGrantedAuthority) ga;
+                        _actingAs = _user;
+                        _user = sa.getSource().getName();
+                        break;
+                    }
+                }
+            }
+            final String user = _user;
+            final String actingAs = _actingAs;
+            threadPool.submit(() -> ul.add(user,
+                                           actingAs,
+                                           method,
+                                           path,
+                                           query,
+                                           contentType,
+                                           agent,
+                                           address,
+                                           ex));
         }
-        super.afterCompletion(request, response, handler, ex);
     }
 
     @Override

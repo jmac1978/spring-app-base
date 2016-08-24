@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+<menu securedPath="false" iconOnly="false">
+-->
+<menu xmlns="http://schema.drunkendev.com/xml/menu/1.0" securedPath="false" iconOnly="false">
+    <menu text="Product" href="#" securedPath="false" iconOnly="false"/>
+    <menu text="Knowledge Base" href="/kb" securedPath="false" iconOnly="false"/>
+    <menu text="Support" href="#" securedPath="false" iconOnly="false">
+        <menu text="Help Me" href="/" securedPath="false" iconOnly="false"/>
+        <menu text="Tickets" href="#" securedPath="false" iconOnly="false"/>
+    </menu>
+    <menu text="Blog" href="/blog" securedPath="false" iconOnly="false"/>
+</menu>

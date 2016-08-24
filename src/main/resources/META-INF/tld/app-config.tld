@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+  <short-name>app-config</short-name>
+  <display-name>Collection Sorting Functions</display-name>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <uri>http://drunkendev.com/taglib/app-config</uri>
+
+  <tag>
+    <name>configValue</name>
+    <tag-class>com.drunkendev.web.settings.AppConfigValueTagHandler</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>key</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>ifPresent</name>
+    <tag-class>com.drunkendev.web.settings.IfConfigPresentTagHandler</tag-class>
+    <attribute>
+      <name>key</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>ifTrue</name>
+    <tag-class>com.drunkendev.web.settings.IfConfigTrueTagHandler</tag-class>
+    <attribute>
+      <name>key</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+
+  <function>
+    <description>Returns the string value for the provided key</description>
+    <name>stringValue</name>
+    <function-class>com.drunkendev.web.settings.ConfigFunctions</function-class>
+    <function-signature>java.lang.String getString(java.lang.String)</function-signature>
+  </function>
+
+  <function>
+    <description>Returns the boolean value for the provided key</description>
+    <name>booleanValue</name>
+    <function-class>com.drunkendev.web.settings.ConfigFunctions</function-class>
+    <function-signature>boolean getBoolean(java.lang.String)</function-signature>
+  </function>
+
+  <function>
+    <description>Returns the int value for the provided key</description>
+    <name>intValue</name>
+    <function-class>com.drunkendev.web.settings.ConfigFunctions</function-class>
+    <function-signature>int getString(java.lang.String)</function-signature>
+  </function>
+
+  <function>
+    <description>Returns the long value for the provided key</description>
+    <name>longValue</name>
+    <function-class>com.drunkendev.web.settings.ConfigFunctions</function-class>
+    <function-signature>long getLong(java.lang.String)</function-signature>
+  </function>
+
+  <function>
+    <description>Returns the value for the provided key</description>
+    <name>value</name>
+    <function-class>com.drunkendev.web.settings.ConfigFunctions</function-class>
+    <function-signature>java.lang.Object getObject(java.lang.String)</function-signature>
+  </function>
+
+</taglib>

@@ -73,6 +73,7 @@ public class SimpleUserlogService implements UserlogService {
                     Object handler,
                     Exception ex) {
         String _user = request.getRemoteUser();
+        LOG.debug("Logging user request for {}", _user);
         if (_user != null && (handler instanceof HandlerMethod ||
                               handler instanceof ParameterizableViewController)) {
             final String method = request.getMethod();
@@ -117,6 +118,14 @@ public class SimpleUserlogService implements UserlogService {
                     String userAgent,
                     String remoteAddress,
                     Exception ex) {
+        LOG.debug("Logging user request: user:{} actingAs:{} method:{} url:{} query:{} contentType:{} userAgent:{}",
+                  user,
+                  actingAs,
+                  method,
+                  url,
+                  query,
+                  contentType,
+                  userAgent);
         Long exid = null;
         if (ex != null) {
             try {

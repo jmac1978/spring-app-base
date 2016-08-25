@@ -31,6 +31,6 @@ applications though not restricted to this use-case.
 
 ## Other
 
- # IE Compatibility Filter
+- IE Compatibility Filter
 
 

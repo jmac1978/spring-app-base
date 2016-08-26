@@ -44,8 +44,9 @@ import static org.apache.commons.lang3.StringUtils.trimToNull;
  * and {@code ${appname}.user.config.properties}.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
-public final class AppConfig implements InitializingBean {
+public class AppConfig implements InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
 
@@ -53,14 +54,21 @@ public final class AppConfig implements InitializingBean {
     private final String appNameUc;
     private final String configSystemProp;
     private final String configSystemEnv;
-    private String homeSystemProp;
-    private String homeSystemEnv;
+    private final String homeSystemProp;
+    private final String homeSystemEnv;
 
     private Properties props;
     private final ClassLoader loader;
 
     /**
      * Creates a new {@code AppConfig} instance.
+     *
+     * Properties will be loaded from a file within the given class loader under
+     * {@code /lower(${appName}).properties} and {@code /lower(${appName}).user.properties}
+     *
+     * If you have either {@code app.config} system property or {@code APP_CONFIG}
+     * environment variable defined and set to a properties file for loading that
+     * file will be used to load additional properties.
      *
      * @param   loader
      *          Loader used for locating built-in configuration resources.
@@ -79,14 +87,39 @@ public final class AppConfig implements InitializingBean {
         LOG.debug("APP NAME: " + appName);
     }
 
+    /**
+     * Creates a new {@code AppConfig} instance.
+     *
+     * @param   loaderClass
+     *          Loader class used for locating built-in configuration resources.
+     * @param   appName
+     *          Base name of application for environment and property names.
+     *          This name should contain no spaces and will be used to determine
+     */
     public AppConfig(Class loaderClass, String appName) {
         this(loaderClass.getClassLoader(), appName);
     }
 
+    /**
+     * Creates a new {@code AppConfig} instance.
+     *
+     * This class is used as the loader which will not find any properties files.
+     * For this to work you must have either {@code app.config} system property
+     * or {@code APP_CONFIG} environment variable defined and set to a properties
+     * file for loading.
+     */
     public AppConfig() {
         this(AppConfig.class, null);
     }
 
+    /**
+     * Configuration file from either {@code app.config} system property or
+     * {@code APP_CONFIG}.
+     *
+     * If not set then {@code null} is returned.
+     *
+     * @return  Application configuration file or {@code null} if not defined.
+     */
     public String getConfigFile() {
         String configFile = System.getProperty(configSystemProp);
         if (isBlank(configFile)) {
@@ -97,6 +130,22 @@ public final class AppConfig implements InitializingBean {
 
     String homeDir;
 
+    /**
+     * Home directory for application.
+     *
+     * This will check int he following order for
+     *
+     * <ul>
+     *  <li>{@code app.home} system property</li>
+     *  <li>{@code APP_HOME} environment variable</li>
+     *  <li>{@code user.dir} system property</li>
+     *  <li>{@code HOME} environment variable</li>
+     * </ul>
+     *
+     * If none of the above succeed the executing directory of the application is returned.
+     *
+     * @return  Home directory for application.
+     */
     public String getHomeDir() {
         if (homeDir != null) {
             return homeDir;
@@ -120,8 +169,9 @@ public final class AppConfig implements InitializingBean {
                 }
             }
         }
-        LOG.debug("RETURNING PATH: {}", path);
-        return path;
+        homeDir = path;
+        LOG.debug("RETURNING PATH: {}", homeDir);
+        return homeDir;
     }
 
     public Path getHomePath() {

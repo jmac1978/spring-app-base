@@ -33,6 +33,7 @@ import static java.util.stream.Collectors.toList;
  * Collection sorting methods for use in JSTL.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public final class CollectionSort {
 

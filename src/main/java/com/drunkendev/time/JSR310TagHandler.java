@@ -30,6 +30,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * Tag handler for conversion of jsr-310 data types.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class JSR310TagHandler extends TagSupport {
 

@@ -39,6 +39,7 @@ import static com.drunkendev.io.FileUtils.getLastModifiedTime;
  * Helper for backing up a H2 database to the applications home directory.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class H2DBBackup {
 
@@ -76,6 +77,7 @@ public class H2DBBackup {
         Path p = path
                 .resolve("app-db-backup-" + df.format(LocalDateTime.now()) + ".zip")
                 .normalize();
+        LOG.debug("Backing up database to {}", p);
         Files.createDirectories(path);
 
         long cut = LocalDateTime.now().minusDays(2).toEpochSecond(ZoneOffset.UTC);
@@ -84,6 +86,7 @@ public class H2DBBackup {
                 .to(TimeUnit.SECONDS) < cut)
                 .forEach(n -> delete(n, null));
         jt.execute("backup to '" + p.toString() + "'");
+        LOG.debug("Backup complete {}", p);
     }
 
 }

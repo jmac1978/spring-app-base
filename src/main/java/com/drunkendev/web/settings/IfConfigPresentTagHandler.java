@@ -31,6 +31,7 @@ import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
 /**
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class IfConfigPresentTagHandler extends RequestContextAwareTag {
 

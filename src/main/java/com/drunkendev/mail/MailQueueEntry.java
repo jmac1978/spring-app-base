@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
  * Represents a queued mail item.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class MailQueueEntry {
 
@@ -52,30 +53,65 @@ public class MailQueueEntry {
         this.tries = tries;
     }
 
+    /**
+     * ID for mail queue entry.
+     *
+     * @return  id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Mail subject.
+     *
+     * @return  subject.
+     */
     public String getSubject() {
         return subject;
     }
 
+    /**
+     * Date/Time created
+     *
+     * @return  created.
+     */
     public LocalDateTime getCreated() {
         return created;
     }
 
+    /**
+     * Date/Time message successfully sent.
+     *
+     * @return  sent.
+     */
     public LocalDateTime getSent() {
         return sent;
     }
 
+    /**
+     * Error message for most recent try.
+     *
+     * @return  error.
+     */
     public String getError() {
         return error;
     }
 
+    /**
+     * Exception associated with the most recent try.
+     *
+     * @return  exception id.
+     */
     public long getExceptionId() {
         return exceptionId;
     }
 
+    /**
+     * Try count.
+     *
+     * @return  try count.
+     */
     public int getTries() {
         return tries;
     }

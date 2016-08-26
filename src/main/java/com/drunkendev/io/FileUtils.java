@@ -31,6 +31,7 @@ import java.util.function.BiConsumer;
  * Provides unchecked versions {@link Files} methods.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class FileUtils {
 

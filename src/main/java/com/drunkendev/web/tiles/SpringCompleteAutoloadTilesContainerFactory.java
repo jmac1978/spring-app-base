@@ -27,8 +27,11 @@ import org.springframework.web.servlet.view.tiles3.SpringLocaleResolver;
 
 
 /**
+ * Extension to {@link CompleteAutoloadTilesContainerFactory} that provides a spring
+ * beans preparer factory and spring locale support.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class SpringCompleteAutoloadTilesContainerFactory extends CompleteAutoloadTilesContainerFactory {
 

@@ -34,6 +34,7 @@ import static org.apache.commons.lang3.StringUtils.upperCase;
  * where an application may have multiple JDBC connections.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public final class JdbcManager {
 

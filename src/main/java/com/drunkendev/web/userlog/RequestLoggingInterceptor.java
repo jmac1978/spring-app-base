@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
  * Interceptor for logging user requests.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class RequestLoggingInterceptor extends HandlerInterceptorAdapter implements DisposableBean {
 

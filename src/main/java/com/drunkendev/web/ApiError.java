@@ -28,8 +28,10 @@ import org.springframework.web.client.HttpStatusCodeException;
 
 
 /**
+ * Represents an API error that occurred in a REST endpoint to be rendered as JSON.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ApiError {
@@ -83,6 +85,18 @@ public class ApiError {
         this.seriesCode = this.status.series().value();
     }
 
+    /**
+     * Creates a new {@code ErrorInfo} instance.
+     *
+     * @param   url
+     *          URL which resulted in the exception.
+     * @param   ex
+     *          Exception thrown.
+     * @param   status
+     *          HTTP status code.
+     * @param   includeTrace
+     *          True to include the trace information in the error object.
+     */
     public ApiError(String url, Throwable ex, int status, boolean includeTrace) {
         this.errorType = includeTrace ? ex.getClass().getName() : null;
         this.stackTrace = includeTrace ? ExceptionUtils.getStackTrace(ex) : null;
@@ -102,6 +116,16 @@ public class ApiError {
         this.seriesCode = this.status.series().value();
     }
 
+    /**
+     * Creates a new {@code ErrorInfo} instance.
+     *
+     * @param   url
+     *          URL which resulted in the exception.
+     * @param   status
+     *          HTTP status code.
+     * @param   message
+     *          Message to represent in the error object.
+     */
     public ApiError(String url, int status, String message) {
         this.errorType = null;
         this.stackTrace = null;
@@ -116,38 +140,87 @@ public class ApiError {
         this.seriesCode = this.status.series().value();
     }
 
+    /**
+     * Class name of the exception that this error represents.
+     *
+     * @return  class name of exception.
+     */
     public String getErrorType() {
         return errorType;
     }
 
+    /**
+     * Reason string associated with the exceptions {@link ResponseStatus} if present.
+     *
+     * @return  reason.
+     */
     public String getReason() {
         return reason;
     }
 
+    /**
+     * Error message.
+     *
+     * @return  message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * URL where error occurred.
+     *
+     * @return  URL,
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * Stack trace if present.
+     *
+     * @return  Stack trace as a string or null.
+     */
     public String getStackTrace() {
         return stackTrace;
     }
 
+    /**
+     * HTTP status.
+     *
+     * @return  status.
+     * @see     HttpStatus
+     */
     public HttpStatus getStatus() {
         return status;
     }
 
+    /**
+     * HTTP status code.
+     *
+     * @return  HTTP status code.
+     * @see     HttpStatus
+     */
     public int getStatusCode() {
         return statusCode;
     }
 
+    /**
+     * Error series.
+     *
+     * @return  Series text.
+     * @see     HttpStatus.Series
+     */
     public String getSeries() {
         return series;
     }
 
+    /**
+     * HTTP Series code.
+     *
+     * @return  Series code as an integer.
+     * @see     HttpStatus.Series
+     */
     public int getSeriesCode() {
         return seriesCode;
     }

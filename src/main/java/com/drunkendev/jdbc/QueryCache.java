@@ -35,6 +35,7 @@ import static com.drunkendev.jdbc.JdbcHelper.getSql;
  * across other classes.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class QueryCache {
 

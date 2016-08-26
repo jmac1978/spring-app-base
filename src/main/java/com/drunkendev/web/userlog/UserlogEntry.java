@@ -22,8 +22,10 @@ import java.time.LocalDateTime;
 
 
 /**
+ * Entry within the user log.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class UserlogEntry {
 

@@ -27,6 +27,7 @@ import java.time.temporal.Temporal;
  * JSR-310 support for JSTL usage.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class JSR310Utils {
 

@@ -25,6 +25,7 @@ import java.time.LocalDate;
  * Sudo access summary for user switches.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class SudoSummary {
 
@@ -82,6 +83,11 @@ public class SudoSummary {
         return date;
     }
 
+    /**
+     * Request count.
+     *
+     * @return  count.
+     */
     public int getCount() {
         return count;
     }

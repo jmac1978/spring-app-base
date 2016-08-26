@@ -35,6 +35,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * {@link DataSource}.
  *
  * @author  Brett Ryan
+ * @since   1.0
  * @see     JdbcManager
  */
 public class JdbcHolder {

@@ -60,6 +60,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * larger flexibility of the implementation.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class AppMailQueue implements MailQueue {
 

@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
  * This may be restricted to within a date-range for an initial query.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class UserUsageSummary {
 

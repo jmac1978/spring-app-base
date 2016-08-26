@@ -32,6 +32,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  * Entry point for REST services that will write a JSON {@link ApiError} to the output stream.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class ApiErrorBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 

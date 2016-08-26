@@ -22,11 +22,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-
 /**
  * Generic exception used for resource not found (404).
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND,
                 reason = "Requested resource could not be found.")

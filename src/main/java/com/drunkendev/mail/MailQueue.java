@@ -29,6 +29,7 @@ import javax.mail.internet.MimeMessage;
  * Provides a mail queue service to send mail asynchronously from within an application.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public interface MailQueue {
 

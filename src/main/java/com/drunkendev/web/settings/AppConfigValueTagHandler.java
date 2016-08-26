@@ -27,6 +27,7 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 /**
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class AppConfigValueTagHandler extends RequestContextAwareTag {
 

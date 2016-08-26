@@ -1,5 +1,5 @@
 /*
- * SpringCompleteAutoloadTilesInitializer.java    Aug 22 2016, 22:47
+ * package-info.java    Aug 26 2016, 16:12
  *
  * Copyright 2016 Drunken Dev.
  *
@@ -16,25 +16,9 @@
  * limitations under the License.
  */
 
-package com.drunkendev.web.tiles;
-
-import org.apache.tiles.extras.complete.CompleteAutoloadTilesInitializer;
-import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.request.ApplicationContext;
-
-
-
 /**
+ * JSTL tags and converters for working with JSR-310.
  *
- *
- * @author  Brett Ryan
  * @since   1.0
  */
-public class SpringCompleteAutoloadTilesInitializer extends CompleteAutoloadTilesInitializer {
-
-    @Override
-    protected AbstractTilesContainerFactory createContainerFactory(ApplicationContext context) {
-        return new SpringCompleteAutoloadTilesContainerFactory();
-    }
-
-}
+package com.drunkendev.time;

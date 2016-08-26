@@ -33,10 +33,11 @@ import org.apache.commons.lang3.StringUtils;
  * Filter to set the IE {@code X-UA-Compatible} header.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class IECompatibilityFilter implements Filter {
 
-    private String compatibilityMode = "IE=10";
+    private String compatibilityMode = "IE=edge";
 
     /**
      * Creates a new {@code IECompatibilityFilter} instance.
@@ -44,10 +45,25 @@ public class IECompatibilityFilter implements Filter {
     public IECompatibilityFilter() {
     }
 
+    /**
+     * Get the compatibility mode.
+     *
+     * Defaults to {@code IE=edge}.
+     *
+     * @return  compatibility mode.
+     */
     public String getCompatibilityMode() {
         return compatibilityMode;
     }
 
+    /**
+     * Set the compatibility mode.
+     *
+     * Defaults to {@code IE=edge}.
+     *
+     * @param   compatibilityMode
+     *          Value to set
+     */
     public void setCompatibilityMode(String compatibilityMode) {
         this.compatibilityMode = compatibilityMode;
     }

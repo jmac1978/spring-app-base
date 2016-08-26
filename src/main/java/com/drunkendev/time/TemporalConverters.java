@@ -19,7 +19,6 @@
 package com.drunkendev.time;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,97 +28,218 @@ import java.util.GregorianCalendar;
 
 
 /**
+ * Methods for converting various temporal units.
  *
  * @author  Brett Ryan
+ * @since   1.0
  */
 public class TemporalConverters {
 
-    public static LocalDate toLocalDate(java.util.Date date) {
-        if (date == null) {
-            return null;
-        }
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()),
-                                       ZoneId.systemDefault()).toLocalDate();
+    /**
+     * Convert a {@link java.util.Date Date} to a {@link java.time.LocalDate LocalDate} with the system zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     * @see     #toLocalDate(Date, ZoneId)
+     */
+    public static LocalDate toLocalDate(java.util.Date value) {
+        return toLocalDate(value, ZoneId.systemDefault());
     }
 
-    public static LocalDateTime toLocalDateTime(java.util.Date date) {
-        if (date == null) {
-            return null;
-        }
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()),
-                                       ZoneId.systemDefault());
+    /**
+     * Convert a {@link java.util.Date Date} to a {@link java.time.LocalDate LocalDate} with the given zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @param   zoneId
+     *          Zone to use to create the instant.
+     * @return  Converted value or null if {@code value} was null.
+     * @see     #toLocalDate(Date, ZoneId)
+     * @since   1.1
+     */
+    public static LocalDate toLocalDate(java.util.Date value, ZoneId zoneId) {
+        return value == null ? null
+               : LocalDateTime.ofInstant(value.toInstant(), zoneId).toLocalDate();
     }
 
-    public static ZonedDateTime toZonedDateTime(Timestamp date) {
-        if (date == null) {
-            return null;
-        }
-        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()),
-                                       ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault());
+    /**
+     * Convert a {@link java.util.Date Date} to a {@link java.time.LocalDateTime LocalDateTime} with the system zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static LocalDateTime toLocalDateTime(java.util.Date value) {
+        return toLocalDateTime(value, ZoneId.systemDefault());
     }
 
-    public static LocalDateTime toLocalDateTime(Timestamp date) {
-        if (date == null) {
-            return null;
-        }
-        return date.toLocalDateTime();
+    /**
+     * Convert a {@link java.util.Date Date} to a {@link java.time.LocalDateTime LocalDateTime} with the given zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @param   zoneId
+     *          Zone to use to create the instant.
+     * @return  Converted value or null if {@code value} was null.
+     * @since   1.1
+     */
+    public static LocalDateTime toLocalDateTime(java.util.Date value, ZoneId zoneId) {
+        return value == null ? null : LocalDateTime.ofInstant(value.toInstant(), zoneId);
     }
 
-    public static java.sql.Date toSqlDate(LocalDateTime ldt) {
-        if (ldt == null) {
-            return null;
-        }
-        java.util.Date d = java.util.Date.from(ldt.toInstant(ZoneOffset.UTC));
-        return new java.sql.Date(d.getTime());
+    /**
+     * Convert a {@link java.sql.Timestamp Timestamp} to a {@link java.time.ZonedDateTime ZonedDateTime} with the system zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static ZonedDateTime toZonedDateTime(Timestamp value) {
+        return toZonedDateTime(value, ZoneId.systemDefault());
     }
 
-    public static java.sql.Date toSqlDate(ZonedDateTime zdt) {
-        if (zdt == null) {
-            return null;
-        }
-        java.util.Date d = java.util.Date.from(zdt.toInstant());
-        return new java.sql.Date(d.getTime());
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @param   zoneId
+     *          Zone to use to create the instant.
+     * @return  Converted value or null if {@code value} was null.
+     * @since   1.1
+     */
+    public static ZonedDateTime toZonedDateTime(Timestamp value, ZoneId zoneId) {
+        return value == null ? null
+               : ZonedDateTime.ofInstant(value.toInstant(), ZoneOffset.UTC)
+                        .withZoneSameInstant(zoneId);
     }
 
-    public static java.sql.Date toSqlDate(LocalDate ld) {
-        return ld == null ? null : java.sql.Date.valueOf(ld);
+    /**
+     * Convert a {@link java.sql.Timestamp Timestamp} to a {@link java.time.LocalDateTime LocalDateTime} with the system zone.
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static LocalDateTime toLocalDateTime(Timestamp value) {
+        return value == null ? null : value.toLocalDateTime();
     }
 
-    public static Timestamp toTimestamp(LocalDateTime ldt) {
-        if (ldt == null) {
-            return null;
-        }
-        java.util.Date d = java.util.Date.from(ldt.toInstant(ZoneOffset.UTC));
-        return new Timestamp(d.getTime());
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static java.sql.Date toSqlDate(LocalDateTime value) {
+        return value == null ? null : new java.sql.Date(value.toInstant(ZoneOffset.UTC).toEpochMilli());
     }
 
-    public static Timestamp toTimestamp(ZonedDateTime zdt) {
-        if (zdt == null) {
-            return null;
-        }
-        java.util.Date d = java.util.Date.from(zdt.toInstant());
-        return new Timestamp(d.getTime());
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static java.sql.Date toSqlDate(ZonedDateTime value) {
+        return value == null ? null : new java.sql.Date(value.toInstant().toEpochMilli());
     }
 
-    public static GregorianCalendar toGregorianCalendar(ZonedDateTime zdt) {
-        if (zdt == null) {
-            return null;
-        }
-        return GregorianCalendar.from(zdt);
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static java.sql.Date toSqlDate(LocalDate value) {
+        return value == null ? null : java.sql.Date.valueOf(value);
     }
 
-    public static GregorianCalendar toGregorianCalendar(LocalDateTime ldt) {
-        if (ldt == null) {
-            return null;
-        }
-        return toGregorianCalendar(ZonedDateTime.of(ldt, ZoneId.systemDefault()));
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static Timestamp toTimestamp(LocalDateTime value) {
+        return value == null ? null : new Timestamp(value.toInstant(ZoneOffset.UTC).toEpochMilli());
     }
 
-    public static GregorianCalendar toGregorianCalendar(LocalDate val) {
-        if (val == null) {
-            return null;
-        }
-        return toGregorianCalendar(ZonedDateTime.of(val.atStartOfDay(), ZoneId.systemDefault()));
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static Timestamp toTimestamp(ZonedDateTime value) {
+        return value == null ? null : new Timestamp(value.toInstant().toEpochMilli());
+    }
+
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static GregorianCalendar toGregorianCalendar(ZonedDateTime value) {
+        return value == null ? null : GregorianCalendar.from(value);
+    }
+
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static GregorianCalendar toGregorianCalendar(LocalDateTime value) {
+        return toGregorianCalendar(value, ZoneId.systemDefault());
+    }
+
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @param   zoneId
+     *          Zone to use to create the instant.
+     * @return  Converted value or null if {@code value} was null.
+     * @since   1.1
+     */
+    public static GregorianCalendar toGregorianCalendar(LocalDateTime value, ZoneId zoneId) {
+        return value == null ? null : toGregorianCalendar(ZonedDateTime.of(value, zoneId));
+    }
+
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @return  Converted value or null if {@code value} was null.
+     */
+    public static GregorianCalendar toGregorianCalendar(LocalDate value) {
+        return toGregorianCalendar(value, ZoneId.systemDefault());
+    }
+
+    /**
+     *
+     *
+     * @param   value
+     *          Value to be converted.
+     * @param   zoneId
+     *          Zone to use to create the instant.
+     * @return  Converted value or null if {@code value} was null.
+     * @since   1.1
+     */
+    public static GregorianCalendar toGregorianCalendar(LocalDate value, ZoneId zoneId) {
+        return value == null ? null : toGregorianCalendar(ZonedDateTime.of(value.atStartOfDay(), zoneId));
     }
 
 }

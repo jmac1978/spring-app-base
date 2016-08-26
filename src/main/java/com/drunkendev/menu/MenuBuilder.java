@@ -233,7 +233,6 @@ public class MenuBuilder {
          * @param   className
          *          Class name to set.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder className(String className) {
             this.item.setClassName(className);
@@ -246,7 +245,6 @@ public class MenuBuilder {
          * @param   href
          *          Link for menu item.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder href(String href) {
             this.item.setHref(href);
@@ -262,7 +260,6 @@ public class MenuBuilder {
          * @param   html
          *          Display HTML content to set for the menu item.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder html(String html) {
             this.item.setHtml(html);
@@ -278,7 +275,6 @@ public class MenuBuilder {
          * @param   security
          *          Spring security EL to use for this node.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder secured(String security) {
             this.item.setSecured(security);
@@ -295,7 +291,6 @@ public class MenuBuilder {
          * @param   securedPath
          *          True to secure the path.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder securedPath(boolean securedPath) {
             this.item.setSecuredPath(securedPath);
@@ -310,7 +305,6 @@ public class MenuBuilder {
          * When the EL evaluates to not allow this menu item will not be rendered.
          *
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder securedPath() {
             this.item.setSecuredPath(true);
@@ -323,7 +317,6 @@ public class MenuBuilder {
          * @param   text
          *          Display text for new menu item.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder text(String text) {
             this.item.setText(text);
@@ -337,7 +330,6 @@ public class MenuBuilder {
          * @param   iconClass
          *          Icon class to be set.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder iconClass(String iconClass) {
             this.item.setIconClass(iconClass);
@@ -352,7 +344,6 @@ public class MenuBuilder {
          * @param   iconClass
          *          Icon class to be set.
          * @return  This nodes builder instance.
-         * @since   1.0
          */
         public Builder iconOnly(String iconClass) {
             this.item.setIconClass(iconClass);
@@ -364,7 +355,6 @@ public class MenuBuilder {
          * Returns the parent builder if available or this builder if already at the root.
          *
          * @return  Parent or current builder.
-         * @since   1.0
          */
         public Builder end() {
             return parent == null ? this : parent;
@@ -379,17 +369,20 @@ public class MenuBuilder {
          * @since   1.1
          */
         public Builder root() {
-            return getRootBuilder();
+            Builder next = this;
+            while (next.parent != null) {
+                next = next.parent;
+            }
+            return next;
         }
 
         /**
          * Builds menu structure and returns the root {@link MenuItem} node.
          *
          * @return  Menu item built from the root.
-         * @since   1.0
          */
         public MenuItem build() {
-            Builder b = getRootBuilder();
+            Builder b = root();
             MenuItemType res = b.item;
             b.item = null;
             return convert(res);
@@ -399,21 +392,12 @@ public class MenuBuilder {
          * Builds menu structure and returns the root nodes children.
          *
          * @return  Children of all nodes from the root node.
-         * @since   1.0
          */
         public List<MenuItem> buildChildren() {
-            Builder b = getRootBuilder();
+            Builder b = root();
             MenuItemType res = b.item;
             b.item = null;
             return convert(res.getMenu());
-        }
-
-        private Builder getRootBuilder() {
-            Builder next = this;
-            while (next.parent != null) {
-                next = next.parent;
-            }
-            return next;
         }
 
     }

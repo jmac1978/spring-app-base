@@ -19,6 +19,7 @@
 package com.drunkendev.time;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -59,8 +60,13 @@ public class TemporalConverters {
      * @since   1.1
      */
     public static LocalDate toLocalDate(java.util.Date value, ZoneId zoneId) {
+        // NOTE: java.sql.Date does not support toInstant. To prevent an UnsupportedOperationException
+        // do not use toInstant on dates.
+        //return value == null ? null
+        //       : LocalDateTime.ofInstant(value.toInstant(), zoneId).toLocalDate();
         return value == null ? null
-               : LocalDateTime.ofInstant(value.toInstant(), zoneId).toLocalDate();
+               : LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
+                                         zoneId).toLocalDate();
     }
 
     /**
@@ -85,7 +91,12 @@ public class TemporalConverters {
      * @since   1.1
      */
     public static LocalDateTime toLocalDateTime(java.util.Date value, ZoneId zoneId) {
-        return value == null ? null : LocalDateTime.ofInstant(value.toInstant(), zoneId);
+        // NOTE: java.sql.Date does not support toInstant. To prevent an UnsupportedOperationException
+        // do not use toInstant on dates.
+        //return value == null ? null : LocalDateTime.ofInstant(value.toInstant(), zoneId);
+        return value == null ? null
+               : LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
+                                         zoneId);
     }
 
     /**

@@ -33,7 +33,7 @@
     <version.slf4j>1.7.21</version.slf4j>
     <version.spring>4.3.2.RELEASE</version.spring>
     <version.spring-security>4.1.3.RELEASE</version.spring-security>
-    <version.tiles>3.0.5</version.tiles>
+    <version.tiles>3.0.7</version.tiles>
     <version.uadetector>2014.10</version.uadetector>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

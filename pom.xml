@@ -27,6 +27,7 @@
     <!--<version.commons-collections>4.1</version.commons-collections>-->
     <version.commons-lang>3.4</version.commons-lang>
     <version.h2>1.4.192</version.h2>
+    <version.httpclient>4.5.2</version.httpclient>
     <version.jackson>2.8.1</version.jackson>
     <version.javamail>1.5.6</version.javamail>
     <version.junit>4.12</version.junit>
@@ -145,6 +146,13 @@
       <groupId>javax.mail</groupId>
       <artifactId>javax.mail-api</artifactId>
       <version>${version.javamail}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${version.httpclient}</version>
       <scope>provided</scope>
     </dependency>
 

@@ -48,6 +48,49 @@ import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
 /**
  * {@link UserlogService} implementation that writes to a user_history table.
  *
+ * <h3>Table Structure</h3>
+ *
+ * <pre>{@code
+create table if not exists exception_log (
+  id              bigint identity primary key,
+  message         clob,
+  root_type       varchar(200),
+  trace           clob
+);
+create index if not exists ix_exception_log_1 on exception_log (
+  root_type
+);
+
+create table if not exists user_history (
+  id              bigint identity primary key,
+  request_date    timestamp not null,
+  username        varchar_ignorecase(64),
+  sudo_username   varchar_ignorecase(64),
+  method          char(8),
+  url             varchar(100),
+  query           varchar(250),
+  content_type    varchar_ignorecase(100),
+  user_agent      varchar_ignorecase(250),
+  exception_log_id bigint,
+  remote_address  varchar_ignorecase(45),
+  constraint fk_user_history_exception_log foreign key (exception_log_id) references exception_log(id),
+);
+create index if not exists ix_user_history_1 on user_history (
+  request_date
+);
+create index if not exists ix_user_history_2 on user_history (
+  username,
+  request_date
+);
+create index if not exists ix_user_history_3 on user_history (
+  url,
+  request_date
+);
+create index if not exists ix_user_history_4 on user_history (
+  user_agent,
+  request_date
+);}</pre>
+ *
  * @author  Brett Ryan
  */
 public class SimpleUserlogService implements UserlogService {
@@ -129,7 +172,7 @@ public class SimpleUserlogService implements UserlogService {
         Long exid = null;
         if (ex != null) {
             try {
-                jt.execute("insert into exceptions (" +
+                jt.execute("insert into exception_log (" +
                            "  message" +
                            " ,root_type" +
                            " ,trace" +

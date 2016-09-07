@@ -36,7 +36,7 @@ import static org.apache.commons.lang3.StringUtils.upperCase;
  * @author  Brett Ryan
  * @since   1.0
  */
-public final class JdbcManager {
+public class JdbcManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(JdbcManager.class);
     private final Map<String, JdbcHolder> holders;

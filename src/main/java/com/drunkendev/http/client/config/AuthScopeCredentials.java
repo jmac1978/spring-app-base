@@ -29,7 +29,7 @@ import org.apache.http.auth.Credentials;
  * spring XML configuration.
  *
  * @author  Brett Ryan
- * @sicne   1.1
+ * @since   1.1
  * @see     BasicCredentialsProviderFactoryBean
  */
 public interface AuthScopeCredentials {

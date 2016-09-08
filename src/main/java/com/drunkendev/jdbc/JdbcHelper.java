@@ -135,6 +135,7 @@ public class JdbcHelper {
                         } else {
                             state = INIT;
                             res.append('-');
+                            res.append(c);
                         }
                         break;
                     case ISI_LINE_COMMENT:
@@ -154,6 +155,7 @@ public class JdbcHelper {
                         } else {
                             state = INIT;
                             res.append('/');
+                            res.append(c);
                             prevNewLine = false;
                         }
                         break;

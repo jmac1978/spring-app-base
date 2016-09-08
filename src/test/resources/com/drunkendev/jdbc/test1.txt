@@ -1,0 +1,10 @@
+select * from some_table;
+select *
+  from some_table
+ where x = 'test'
+   and a > 10/3;
+select a
+      ,b
+      ,d
+  from table1;
+select * from a-b-c;

@@ -50,6 +50,9 @@ public class JdbcHelper {
     private static final int ISA_SLASH = 3;
     private static final int ISI_BLOCK_COMMENT = 4;
     private static final int ISA_BCOMMENT_STAR = 5;
+    private static final int ISI_DOUBLE_QUOTE = 6;
+    private static final int ISI_SINGLE_QUOTE = 7;
+    private static final int ISI_SQUARE_QUOTE = 8;
 
     /**
      * Given an input file path will return the textual contents with comments removed.
@@ -111,6 +114,18 @@ public class JdbcHelper {
                             case '/':
                                 state = ISA_SLASH;
                                 break;
+                            case '\'':
+                                state = ISI_SINGLE_QUOTE;
+                                res.append(c);
+                                break;
+                            case '"':
+                                state = ISI_DOUBLE_QUOTE;
+                                res.append(c);
+                                break;
+                            case '[':
+                                state = ISI_SQUARE_QUOTE;
+                                res.append(c);
+                                break;
                             default:
                                 if (c == '\n' || c == '\r') {
                                     if (!prevNewLine && res.length() > 0) {
@@ -166,6 +181,24 @@ public class JdbcHelper {
                         break;
                     case ISA_BCOMMENT_STAR:
                         state = c == '/' ? INIT : ISI_BLOCK_COMMENT;
+                        break;
+                    case ISI_SINGLE_QUOTE:
+                        res.append(c);
+                        if (c == '\'') {
+                            state = INIT;
+                        }
+                        break;
+                    case ISI_DOUBLE_QUOTE:
+                        res.append(c);
+                        if (c == '"') {
+                            state = INIT;
+                        }
+                        break;
+                    case ISI_SQUARE_QUOTE:
+                        res.append(c);
+                        if (c == ']') {
+                            state = INIT;
+                        }
                         break;
                 }
             }

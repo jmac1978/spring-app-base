@@ -32,3 +32,7 @@ select a
   from table1;
 
 select * from a-b-c;
+
+select * from abc 'a--b--c';
+
+select * from [a--b--c];

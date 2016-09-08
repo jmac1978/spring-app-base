@@ -12,3 +12,4 @@ buildNumber.properties
 *.swp
 *.log
 .DS_Store
+/nbproject/

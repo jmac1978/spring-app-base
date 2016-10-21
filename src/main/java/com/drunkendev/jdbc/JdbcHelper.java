@@ -26,6 +26,8 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -246,6 +248,475 @@ public class JdbcHelper {
      */
     public static <T> ResultSetExtractor<Optional<T>> singletonOptionalExtractor(RowMapper<? extends T> mapper) {
         return rs -> rs.next() ? Optional.of(mapper.mapRow(rs, 1)) : Optional.empty();
+    }
+
+    /**
+     * Return an {@link java.lang.Boolean} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Boolean getBoolean(ResultSet rs, String columnLabel) throws SQLException {
+        Boolean res = rs.getBoolean(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Boolean} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Boolean getBoolean(ResultSet rs, int columnIndex) throws SQLException {
+        Boolean res = rs.getBoolean(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Byte} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Byte getByte(ResultSet rs, String columnLabel) throws SQLException {
+        Byte res = rs.getByte(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Byte} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Byte getByte(ResultSet rs, int columnIndex) throws SQLException {
+        Byte res = rs.getByte(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Byte} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Byte getByteZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Byte res = rs.getByte(columnLabel);
+        return rs.wasNull() || res == 0 ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Double} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Double getDouble(ResultSet rs, String columnLabel) throws SQLException {
+        Double res = rs.getDouble(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Double} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Double getDouble(ResultSet rs, int columnIndex) throws SQLException {
+        Double res = rs.getDouble(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Double} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Double getDoubleZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Double res = rs.getDouble(columnLabel);
+        return rs.wasNull() || res == 0.0d ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Float} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Float getFloat(ResultSet rs, String columnLabel) throws SQLException {
+        Float res = rs.getFloat(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Float} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Float getFloat(ResultSet rs, int columnIndex) throws SQLException {
+        Float res = rs.getFloat(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Float} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Float getFloatZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Float res = rs.getFloat(columnLabel);
+        return rs.wasNull() || res == 0.0f ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Integer} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Integer getInteger(ResultSet rs, String columnLabel) throws SQLException {
+        Integer res = rs.getInt(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Integer} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Integer getInteger(ResultSet rs, int columnIndex) throws SQLException {
+        Integer res = rs.getInt(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Integer} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Integer getIntegerZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Integer res = rs.getInt(columnLabel);
+        return rs.wasNull() || res == 0 ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Long} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Long getLong(ResultSet rs, String columnLabel) throws SQLException {
+        Long res = rs.getLong(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Long} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnIndex
+     *          the first column is 1, the second is 2, ...
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Long getLong(ResultSet rs, int columnIndex) throws SQLException {
+        Long res = rs.getLong(columnIndex);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Long} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Long getLongZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Long res = rs.getLong(columnLabel);
+        return rs.wasNull() || res == 0 ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Short} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Short getShort(ResultSet rs, String columnLabel) throws SQLException {
+        Short res = rs.getShort(columnLabel);
+        return rs.wasNull() ? null : res;
+    }
+
+    /**
+     * Return an {@link java.lang.Short} preserving null values from the {@code ResultSet}.
+     *
+     * This method will return null if the call to {@link ResultSet#wasNull()} is true
+     * or the value is zero.
+     *
+     * @param   rs
+     *          ResultSet to retrieve the value from.
+     * @param   columnLabel
+     *          the label for the column specified with the SQL AS clause. If
+     *          the SQL AS clause was not specified, then the label is the name
+     *          of the column.
+     * @return  the column value; if the value is SQL {@code NULL}, the value
+     *          returned is {@code null}.
+     *
+     * @throws  SQLException
+     *          if the columnLabel is not valid; if a database access error
+     *          occurs or this method is called on a closed result set.
+     *
+     * @since   1.3
+     */
+    public static Short getShortZeroNull(ResultSet rs, String columnLabel) throws SQLException {
+        Short res = rs.getShort(columnLabel);
+        return rs.wasNull() || res == 0 ? null : res;
     }
 
 }

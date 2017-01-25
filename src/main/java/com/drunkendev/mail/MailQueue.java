@@ -20,6 +20,7 @@ package com.drunkendev.mail;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -91,6 +92,16 @@ public interface MailQueue {
                      String body,
                      Address[] recipients)
             throws IOException, MessagingException;
+
+    /**
+     * Determines if a system error can be sent using {@link #sendSystemError(String, String, String, Exception)}
+     *
+     * @return  true if calls to {@link #sendSystemError(String, String, String, Exception)}
+     *          will send an email.
+     */
+    default boolean isSystemErrorSupported() {
+        return false;
+    }
 
     /**
      * Enqueues a system error message that may be sent to administrators for review.

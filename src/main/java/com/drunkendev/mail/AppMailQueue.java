@@ -18,7 +18,6 @@
 
 package com.drunkendev.mail;
 
-import com.drunkendev.web.settings.AppConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
 import javax.activation.DataHandler;
 import javax.mail.Address;
 import javax.mail.Message;
@@ -39,6 +39,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -46,10 +47,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
+import com.drunkendev.web.settings.AppConfig;
+
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
 
 
 /**
@@ -153,6 +157,11 @@ public class AppMailQueue implements MailQueue {
         enqueue(msg);
     }
 
+    @Override
+    public boolean isSystemErrorSupported() {
+        return isNotBlank(fromAddress) && isNotBlank(errorMailto);
+    }
+
     /**
      * Enqueues an error to be sent to the configured error recipient.
      *
@@ -175,6 +184,10 @@ public class AppMailQueue implements MailQueue {
                                 String message,
                                 String url,
                                 Exception ex) throws MessagingException, IOException {
+        if (!isSystemErrorSupported()) {
+            LOG.debug("sendSystemError not available for this mail queue. mail.from and error.mailto must be set.");
+            return;
+        }
         MimeMessage msg = jms.createMimeMessage();
         msg.setFrom(fromAddress);
         msg.addRecipients(Message.RecipientType.TO, errorMailto);

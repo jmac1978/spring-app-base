@@ -18,14 +18,18 @@
 
 package com.drunkendev.web.userlog;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.PreparedStatement;
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
@@ -40,6 +44,10 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserFilt
 import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
+
+import com.drunkendev.mail.MailQueue;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import static com.drunkendev.time.TemporalConverters.toLocalDate;
 import static com.drunkendev.time.TemporalConverters.toLocalDateTime;
@@ -96,8 +104,8 @@ create index if not exists ix_user_history_4 on user_history (
 public class SimpleUserlogService implements UserlogService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleUserlogService.class);
-//    private final MailQueue mq;
     private final JdbcTemplate jt;
+    private MailQueue mq;
 
     /**
      * Creates a new {@code UserlogService} instance.
@@ -106,8 +114,11 @@ public class SimpleUserlogService implements UserlogService {
      *          {@link JdbcTemplate} containing user_history table.
      */
     public SimpleUserlogService(JdbcTemplate jt) {
-//        this.mq = mq;
         this.jt = jt;
+    }
+
+    public void setMailQueue(MailQueue mq) {
+        this.mq = mq;
     }
 
     @Override
@@ -204,7 +215,7 @@ public class SimpleUserlogService implements UserlogService {
                   " ,content_type" +
                   " ,user_agent" +
                   " ,remote_address" +
-                  " ,exception_id" +
+                  " ,exception_log_id" +
                   ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                   new Date(),
                   StringUtils.left(user, 12),
@@ -216,22 +227,22 @@ public class SimpleUserlogService implements UserlogService {
                   StringUtils.left(userAgent, 250),
                   StringUtils.abbreviate(remoteAddress, 45),
                   exid);
-//        if (ex != null && containsIgnoreCase(ex.getMessage(), url)) {
-//            try {
-//                StringBuilder m = new StringBuilder();
-//                m.append("An error has been raised by ").append(user);
-//                if (isNotBlank(actingAs)) {
-//                    m.append(" who is impersonating ").append(user);
-//                }
-//                m.append(".");
-//                mq.sendSystemError("Exception in user request.",
-//                                   m.toString(),
-//                                   url,
-//                                   ex);
-//            } catch (MessagingException | IOException ex1) {
-//                LOG.error("Couldn't send system error message: {}", ex1.getMessage(), ex1);
-//            }
-//        }
+        if (ex != null && mq != null && mq.isSystemErrorSupported()) {
+            try {
+                StringBuilder m = new StringBuilder();
+                m.append("An error has been raised by ").append(user);
+                if (isNotBlank(actingAs)) {
+                    m.append(" who is impersonating ").append(user);
+                }
+                m.append(".");
+                mq.sendSystemError("Exception in user request.",
+                                   m.toString(),
+                                   url,
+                                   ex);
+            } catch (MessagingException | IOException ex1) {
+                LOG.error("Couldn't send system error message: {}", ex1.getMessage(), ex1);
+            }
+        }
     }
 
     @Override

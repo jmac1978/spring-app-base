@@ -102,23 +102,71 @@ public class TemporalConverters {
     /**
      * Convert a {@link java.sql.Timestamp Timestamp} to a {@link java.time.ZonedDateTime ZonedDateTime} with the system zone.
      *
+     * <h3>Note</h3>
+     *
+     * If your databases timezone is the same as the current system timezone a call such as the following is sufficient.
+     *
+     * <pre>{@code
+ ZonedDateTime toZonedDateTime(rs.getTimestamp("FIELD_NAME"));
+}</pre>
+     *
+     * However, if your session is not running in the same time-zone as the database
+     * you may need to specify the calendar the database is stored as.
+     *
+     * <pre>{@code
+ Calendar dbCal = Calendar.getInstance(TimeZone.getTimeZone("Europe/London"));
+ ZonedDateTime toZonedDateTime(rs.getTimestamp("FIELD_NAME", dbCal));
+}</pre>
+     *
      * @param   value
      *          Value to be converted.
      * @return  Converted value or null if {@code value} was null.
+     *
+     * @since   1.1
+     * @see     #toZonedDateTime(Timestamp, ZoneId)
      */
     public static ZonedDateTime toZonedDateTime(Timestamp value) {
         return toZonedDateTime(value, ZoneId.systemDefault());
     }
 
     /**
+     * Convert a {@link java.sql.Timestamp Timestamp} to a {@link java.time.ZonedDateTime ZonedDateTime} with provided zone.
      *
+     * <h3>Usage</h3>
+     *
+     * This method may be desired where the users session zone is desired.
+     *
+     * <pre>{@code
+ public ModelAndView controllerMethod(ZoneId userZoneId) {
+     Calendar dbCal = Calendar.getInstance(TimeZone.getTimeZone("Europe/London"));
+     ZonedDateTime zdt = toZonedDateTime(rs.getTimestamp("FIELD_NAME", dbCal), userZoneId);
+ }
+}</pre>
+     *
+     * <h3>Note</h3>
+     *
+     * If your databases timezone is the same as the current system timezone a call such as the following is sufficient.
+     *
+     * <pre>{@code
+ ZonedDateTime toZonedDateTime(rs.getTimestamp("FIELD_NAME"));
+}</pre>
+     *
+     * However, if your session is not running in the same time-zone as the database
+     * you may need to specify the calendar the database is stored as.
+     *
+     * <pre>{@code
+ Calendar dbCal = Calendar.getInstance(TimeZone.getTimeZone("Europe/London"));
+ ZonedDateTime toZonedDateTime(rs.getTimestamp("FIELD_NAME", dbCal));
+}</pre>
      *
      * @param   value
      *          Value to be converted.
      * @param   zoneId
      *          Zone to use to create the instant.
      * @return  Converted value or null if {@code value} was null.
+     *
      * @since   1.1
+     * @see     #toZonedDateTime(Timestamp)
      */
     public static ZonedDateTime toZonedDateTime(Timestamp value, ZoneId zoneId) {
         return value == null ? null

@@ -21,6 +21,8 @@ package com.drunkendev.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 
 /**
@@ -41,8 +43,20 @@ public class TimingUtils {
         return Duration.between(start, Instant.now());
     }
 
-    public static TimingResult time(String name, Consumer<String> task) {
-        return new TimingResult(name, time(task, name));
+    public static TimingResult<String> time(String name, Consumer<String> task) {
+        return new TimingResult<>(name, time(task, name));
+    }
+
+    public static <T> TimingResult time(Supplier<T> task) {
+        Instant start = Instant.now();
+        T res = task.get();
+        return new TimingResult<>(res, Duration.between(start, Instant.now()));
+    }
+
+    public static <I, R> TimingResult time(Function<I, R> task, I arg) {
+        Instant start = Instant.now();
+        R res = task.apply(arg);
+        return new TimingResult<>(res, Duration.between(start, Instant.now()));
     }
 
 }

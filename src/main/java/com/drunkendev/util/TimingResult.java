@@ -1,5 +1,5 @@
 /*
- * TimingResult.java    Mar 30 2017, 11:57
+ * TimingResult.java    Mar 30 2017, 12:22
  *
  * Copyright 2017 Drunken Dev.
  *
@@ -25,18 +25,18 @@ import java.time.Duration;
  *
  * @author  Brett Ryan
  */
-public class TimingResult {
+public class TimingResult<T> {
 
-    private final String name;
+    private final T result;
     private final Duration duration;
 
-    public TimingResult(String name, Duration duration) {
-        this.name = name;
+    public TimingResult(T result, Duration duration) {
+        this.result = result;
         this.duration = duration;
     }
 
-    public String getName() {
-        return name;
+    public T getResult() {
+        return result;
     }
 
     public Duration getDuration() {

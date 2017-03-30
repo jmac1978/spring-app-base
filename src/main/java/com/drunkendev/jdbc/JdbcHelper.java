@@ -23,12 +23,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Optional;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
@@ -217,6 +221,118 @@ public class JdbcHelper {
             throw new UncheckedIOException(ex.getMessage(), ex);
         }
         return res.toString();
+    }
+
+    public static RowMapper<Boolean> booleanMapper(int col) {
+        return (rs, i) -> rs.getBoolean(col);
+    }
+
+    public static RowMapper<Byte> byteMapper(int col) {
+        return (rs, i) -> rs.getByte(col);
+    }
+
+    public static RowMapper<java.sql.Date> dateMapper(int col) {
+        return (rs, i) -> rs.getDate(col);
+    }
+
+    public static RowMapper<Float> floatMapper(int col) {
+        return (rs, i) -> rs.getFloat(col);
+    }
+
+    public static RowMapper<Double> doubleMapper(int col) {
+        return (rs, i) -> rs.getDouble(col);
+    }
+
+    public static RowMapper<Integer> intMapper(int col) {
+        return (rs, i) -> rs.getInt(col);
+    }
+
+    public static RowMapper<Long> longMapper(int col) {
+        return (rs, i) -> rs.getLong(col);
+    }
+
+    public static RowMapper<String> nstringMapper(int col) {
+        return (rs, i) -> rs.getNString(col);
+    }
+
+    public static <T> RowMapper<T> objectMapper(int col) {
+        return (rs, i) -> (T) rs.getObject(col);
+    }
+
+    public static RowMapper<Short> shortMapper(int col) {
+        return (rs, i) -> rs.getShort(col);
+    }
+
+    public static RowMapper<String> stringMapper(int col) {
+        return (rs, i) -> rs.getString(col);
+    }
+
+    public static RowMapper<Time> timeMapper(int col) {
+        return (rs, i) -> rs.getTime(col);
+    }
+
+    public static RowMapper<Timestamp> timestampMapper(int col) {
+        return (rs, i) -> rs.getTimestamp(col);
+    }
+
+    public static RowMapper<URL> urlMapper(int col) {
+        return (rs, i) -> rs.getURL(col);
+    }
+
+    public static RowMapper<Boolean> booleanMapper(String col) {
+        return (rs, i) -> rs.getBoolean(col);
+    }
+
+    public static RowMapper<Byte> byteMapper(String col) {
+        return (rs, i) -> rs.getByte(col);
+    }
+
+    public static RowMapper<java.sql.Date> dateMapper(String col) {
+        return (rs, i) -> rs.getDate(col);
+    }
+
+    public static RowMapper<Float> floatMapper(String col) {
+        return (rs, i) -> rs.getFloat(col);
+    }
+
+    public static RowMapper<Double> doubleMapper(String col) {
+        return (rs, i) -> rs.getDouble(col);
+    }
+
+    public static RowMapper<Integer> intMapper(String col) {
+        return (rs, i) -> rs.getInt(col);
+    }
+
+    public static RowMapper<Long> longMapper(String col) {
+        return (rs, i) -> rs.getLong(col);
+    }
+
+    public static RowMapper<String> nstringMapper(String col) {
+        return (rs, i) -> rs.getNString(col);
+    }
+
+    public static <T> RowMapper<T> objectMapper(String col) {
+        return (rs, i) -> (T) rs.getObject(col);
+    }
+
+    public static RowMapper<Short> shortMapper(String col) {
+        return (rs, i) -> rs.getShort(col);
+    }
+
+    public static RowMapper<String> stringMapper(String col) {
+        return (rs, i) -> rs.getString(col);
+    }
+
+    public static RowMapper<Time> timeMapper(String col) {
+        return (rs, i) -> rs.getTime(col);
+    }
+
+    public static RowMapper<Timestamp> timestampMapper(String col) {
+        return (rs, i) -> rs.getTimestamp(col);
+    }
+
+    public static RowMapper<URL> urlMapper(String col) {
+        return (rs, i) -> rs.getURL(col);
     }
 
     /**

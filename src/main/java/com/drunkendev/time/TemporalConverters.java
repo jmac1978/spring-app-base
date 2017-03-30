@@ -193,7 +193,7 @@ public class TemporalConverters {
      * @return  Converted value or null if {@code value} was null.
      */
     public static java.sql.Date toSqlDate(LocalDateTime value) {
-        return value == null ? null : new java.sql.Date(value.toInstant(ZoneOffset.UTC).toEpochMilli());
+        return value == null ? null : java.sql.Date.valueOf(value.toLocalDate());
     }
 
     /**
@@ -226,7 +226,7 @@ public class TemporalConverters {
      * @return  Converted value or null if {@code value} was null.
      */
     public static Timestamp toTimestamp(LocalDateTime value) {
-        return value == null ? null : new Timestamp(value.toInstant(ZoneOffset.UTC).toEpochMilli());
+        return value == null ? null : Timestamp.valueOf(value);
     }
 
     /**

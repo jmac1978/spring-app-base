@@ -232,7 +232,7 @@ public class SimpleUserlogService implements UserlogService {
                 StringBuilder m = new StringBuilder();
                 m.append("An error has been raised by ").append(user);
                 if (isNotBlank(actingAs)) {
-                    m.append(" who is impersonating ").append(user);
+                    m.append(" who is impersonating ").append(actingAs);
                 }
                 m.append(".");
                 mq.sendSystemError("Exception in user request.",

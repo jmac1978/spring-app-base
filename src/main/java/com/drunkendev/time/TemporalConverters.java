@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -64,8 +65,8 @@ public class TemporalConverters {
         // do not use toInstant on dates.
         //return value == null ? null
         //       : LocalDateTime.ofInstant(value.toInstant(), zoneId).toLocalDate();
-        return value == null ? null
-               : LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
+        return value == null ? null :
+                 LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
                                          zoneId).toLocalDate();
     }
 
@@ -94,8 +95,8 @@ public class TemporalConverters {
         // NOTE: java.sql.Date does not support toInstant. To prevent an UnsupportedOperationException
         // do not use toInstant on dates.
         //return value == null ? null : LocalDateTime.ofInstant(value.toInstant(), zoneId);
-        return value == null ? null
-               : LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
+        return value == null ? null :
+                 LocalDateTime.ofInstant(Instant.ofEpochMilli(value.getTime()),
                                          zoneId);
     }
 
@@ -172,6 +173,17 @@ public class TemporalConverters {
         return value == null ? null
                : ZonedDateTime.ofInstant(value.toInstant(), ZoneOffset.UTC)
                         .withZoneSameInstant(zoneId);
+    }
+
+    public static OffsetDateTime toOffsetDateTime(Timestamp value, ZoneOffset zoneOffset) {
+        return value == null ? null
+               : OffsetDateTime.ofInstant(value.toInstant(), ZoneOffset.UTC)
+                        .withOffsetSameInstant(zoneOffset);
+    }
+
+    public static OffsetDateTime toOffsetDateTime(Timestamp value) {
+        return value == null ? null
+               : OffsetDateTime.ofInstant(value.toInstant(), ZoneOffset.UTC);
     }
 
     /**

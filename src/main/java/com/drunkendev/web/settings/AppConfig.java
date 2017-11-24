@@ -180,15 +180,21 @@ public class AppConfig implements InitializingBean {
     }
 
     public void load() throws IOException {
+        load(loader.getResourceAsStream("/" + appNameLc + ".config.properties"),
+             loader.getResourceAsStream("/" + appNameLc + ".user.config.properties"));
+    }
+
+    public void load(InputStream def,
+                     InputStream over) throws IOException {
         Properties defaultProps = new Properties();
 
-        try (InputStream in = loader.getResourceAsStream("/" + appNameLc + ".config.properties")) {
+        try (InputStream in = def) {
             if (in != null) {
                 defaultProps.load(in);
             }
         }
         this.props = new Properties(defaultProps);
-        try (InputStream in = loader.getResourceAsStream("/" + appNameLc + ".user.config.properties")) {
+        try (InputStream in = over) {
             if (in != null) {
                 props.load(in);
             }
@@ -198,6 +204,7 @@ public class AppConfig implements InitializingBean {
         String configFile = getConfigFile();
         if (configFile != null) {
             try (InputStream in = new FileInputStream(configFile)) {
+                LOG.debug("Loading properties {} := {}", configFile, in);
                 props.load(in);
             }
         }
@@ -309,7 +316,9 @@ public class AppConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        load();
+        if (props == null) {
+            load();
+        }
     }
 
 }

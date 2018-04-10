@@ -241,7 +241,7 @@ public class AppMailQueue implements MailQueue {
         Files.createDirectories(queuePath);
         long mid;
         try {
-            jt.update("insert into mail_queue (subject, created) values (?, current_timestamp())", msg.getSubject());
+            jt.update("insert into mail_queue (subject, created) values (?, current_timestamp)", msg.getSubject());
             mid = jt.queryForObject("call identity()", Long.class);
         } catch (RuntimeException ex) {
             if (ex.getCause() instanceof MessagingException) {
@@ -304,7 +304,7 @@ public class AppMailQueue implements MailQueue {
                                 Files.deleteIfExists(path);
                             } catch (Exception ioe) {
                             }
-                            jt.update("update mail_queue set sent = current_timestamp(), tries = tries + 1 where id = ?", n.getId());
+                            jt.update("update mail_queue set sent = current_timestamp, tries = tries + 1 where id = ?", n.getId());
                         } catch (MailException ex) {
                             LOG.error("Couldn't send message for : " + n.toString() + " -> " + ex.getMessage());
                             jt.update("update mail_queue set error = ?, tries = tries + 1 where id = ?", ex.getMessage(), n.getId());

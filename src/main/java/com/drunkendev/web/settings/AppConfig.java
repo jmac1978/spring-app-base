@@ -56,6 +56,7 @@ public class AppConfig implements InitializingBean {
     private final String configSystemEnv;
     private final String homeSystemProp;
     private final String homeSystemEnv;
+    private final String homeConfigProp;
 
     private Properties props;
     private final ClassLoader loader;
@@ -83,6 +84,7 @@ public class AppConfig implements InitializingBean {
         configSystemEnv = appNameUc + "_CONFIG";
         homeSystemProp = appNameLc + ".home";
         homeSystemEnv = appNameUc + "_HOME";
+        homeConfigProp = appNameLc + ".home";
         this.loader = loader == null ? AppConfig.class.getClassLoader() : loader;
         LOG.debug("APP NAME: " + appName);
     }
@@ -136,6 +138,7 @@ public class AppConfig implements InitializingBean {
      * This will check int he following order for
      *
      * <ul>
+     *  <li>{@code app.home} config file property</li>
      *  <li>{@code app.home} system property</li>
      *  <li>{@code APP_HOME} environment variable</li>
      *  <li>{@code user.dir} system property</li>
@@ -151,20 +154,24 @@ public class AppConfig implements InitializingBean {
             return homeDir;
         }
 
-        String path = System.getProperty(homeSystemProp);
-        LOG.debug("PATH: (prop:{}) {}", homeSystemProp, path);
+        String path = getPath(homeConfigProp).normalize().toString();
+        LOG.debug("PATH: (config file:{}) {}", homeConfigProp, path);
         if (isBlank(path)) {
-            path = System.getenv(homeSystemEnv);
-            LOG.debug("PATH: (env:{}) {}", homeSystemEnv, path);
+            path = System.getProperty(homeSystemProp);
+            LOG.debug("PATH: (prop:{}) {}", homeSystemProp, path);
             if (isBlank(path)) {
-                path = System.getenv("user.dir");
-                LOG.debug("PATH: user.dir {}", path);
+                path = System.getenv(homeSystemEnv);
+                LOG.debug("PATH: (env:{}) {}", homeSystemEnv, path);
                 if (isBlank(path)) {
-                    path = System.getenv("HOME");
-                    LOG.debug("PATH: HOME {}", path);
+                    path = System.getenv("user.dir");
+                    LOG.debug("PATH: user.dir {}", path);
                     if (isBlank(path)) {
-                        path = Paths.get(".").normalize().toString();
-                        LOG.debug("PATH: {}", path);
+                        path = System.getenv("HOME");
+                        LOG.debug("PATH: HOME {}", path);
+                        if (isBlank(path)) {
+                            path = Paths.get(".").normalize().toString();
+                            LOG.debug("PATH: {}", path);
+                        }
                     }
                 }
             }

@@ -181,6 +181,10 @@ public class AppConfig implements InitializingBean {
         return homeDir;
     }
 
+    public String getAppName() {
+        return appNameLc;
+    }
+
     public Path getHomePath() {
         String v = getHomeDir();
         return v == null ? null : Paths.get(v).normalize();

@@ -63,21 +63,22 @@ public class H2DBBackup {
     }
 
     /**
-     * Backs up a h2 database to the home directory.
+     * Backs up a h2 database to a target directory.
      *
-     * Backup file will be stored as {@code ${app.home}/backup/app-db-backup-yyyy-MM-dd_hhmm.zip}
+     * Backup folder will first attempt to be set to a config attribute, if
+     * the attribute does not exist the location will default to home dir/backup.
+     * File name will be {@code ${app.name}-db-backup-yyyy-MM-dd_hhmm.zip}
      *
      * @throws  IOException
      *          If the backup file could not be created.
      */
     public void backupDatabase() throws IOException {
-        Path path = Paths.get(config.getHomeDir())
-                .resolve("backup")
+        Path path = config.getPathOrDefault("backup.folder", config.getHomePath().resolve("backup"))
                 .normalize();
         Path p = path
-                .resolve("app-db-backup-" + df.format(LocalDateTime.now()) + ".zip")
+                .resolve(config.getAppName() + "-db-backup-" + df.format(LocalDateTime.now()) + ".zip")
                 .normalize();
-        LOG.debug("Backing up database to {}", p);
+        LOG.info("Backing up database to {}", p);
         Files.createDirectories(path);
 
         long cut = LocalDateTime.now().minusDays(2).toEpochSecond(ZoneOffset.UTC);

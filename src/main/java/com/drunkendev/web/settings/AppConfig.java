@@ -27,9 +27,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+
+import static java.util.Objects.isNull;
 
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
@@ -154,7 +157,7 @@ public class AppConfig implements InitializingBean {
             return homeDir;
         }
 
-        String path = getPath(homeConfigProp).normalize().toString();
+        String path = getString(homeConfigProp);
         LOG.debug("PATH: (config file:{}) {}", homeConfigProp, path);
         if (isBlank(path)) {
             path = System.getProperty(homeSystemProp);
